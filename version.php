@@ -16,16 +16,16 @@
 
 
 /**
- * Unanswered Discussions block version details
+ * All Discussions block version details
  *
  * @package    contrib
- * @subpackage block_unanswered_discussions
- * @copyright  2012 Michael de Raadt
+ * @subpackage block_all_discussions
+ * @copyright  2015 Matthew Davidson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$plugin->version   = 2015070200;
+$plugin->version   = 2015120100;
 $plugin->requires  = 2010112400;
 $plugin->maturity  = 200;
 $plugin->release   = 'Version for Moodle 2.x';
-$plugin->component = 'block_unanswered_discussions';
+$plugin->component = 'block_all_discussions';

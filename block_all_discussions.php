@@ -16,21 +16,22 @@
 
 
 /**
- * Unanswered Discussions block definition file
+ * All Discussions block definition file
  *
  * @package    contrib
- * @subpackage block_unanswered_discussions
- * @copyright  2015 Michael de Raadt
+ * @subpackage block_all_discussions
+ * @copyright  2015 Matthew Davidson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-class block_unanswered_discussions extends block_base {
+class block_all_discussions extends block_base {
 
     // Default Configuration.
     public $defaultlimits = array(
-        'randomposts' => 0, // Random Unanswered Posts.
-        'oldestposts' => 2, // Oldest Unanswered Posts.
-        'yourposts'   => 2  // Your Unanswered Posts.
+        'randomposts' => 5, // Random Posts.
+        'timedposts'  => 5, // Random Posts.
+        'oldestposts' => 5, // Oldest Posts.
+        'yourposts'   => 5  // Your Posts.
     );
     public $maxsubjectlength = 20; // Characters.
     public $maxshowoption = 10; // Messages.
@@ -38,7 +39,7 @@ class block_unanswered_discussions extends block_base {
 
     // ------------------------------------------------------------------------
     public function init() {
-        $this->title = get_string('unanswereddiscussions', 'block_unanswered_discussions');
+        $this->title = get_string('alldiscussions', 'block_all_discussions');
     }
 
     // ------------------------------------------------------------------------
@@ -104,14 +105,15 @@ class block_unanswered_discussions extends block_base {
         }
         $this->config->limits = array (
             $this->config->randomposts,
+            $this->config->timedposts,
             $this->config->oldestposts,
             $this->config->yourposts
         );
 
         // These are the different bits in the three queries.
         $queries = array(
-            'where'  => array("AND d.userid <> {$USER->id} ", "AND d.userid <> {$USER->id} ", "AND d.userid = {$USER->id} "),
-            'order'  => array('', 'd.timemodified ASC,', 'd.timemodified ASC,'),
+            'where'  => array("", "", "", "AND d.userid = {$USER->id}"),
+            'order'  => array("RAND() LIMIT 10000", "d.id ASC,", "d.timemodified ASC,", "d.id ASC,"),
         );
 
         // Do it backwards and exclude previous results.
@@ -131,7 +133,7 @@ class block_unanswered_discussions extends block_base {
             $wherepostexcludesql = (!empty($discussionexclude) ? 'AND d.id NOT IN(' . join($discussionexclude, ',') . ')' : '');
 
             // Building up the SQL statement from the bits and pieces above.
-            $sql = "SELECT d.id, d.forum, d.name, d.timemodified, d.groupid, (COUNT(p.id) - 1) AS replies
+            $sql = "SELECT d.id, d.forum, d.name, d.timemodified, d.groupid
                     FROM {forum_posts} p, {forum_discussions} d
                     WHERE d.course = $course
                           $whereforaexcludesql
@@ -139,8 +141,7 @@ class block_unanswered_discussions extends block_base {
                           AND d.id = p.discussion
                           {$queries['where'][$i]}
                     GROUP BY d.id, d.forum, d.name, d.timemodified, d.groupid
-                    HAVING COUNT(p.id) = 1
-                    ORDER BY {$queries['order'][$i]}replies ASC";
+                    ORDER BY {$queries['order'][$i]}";
 
             // Need to limit after query to achieve random shuffle.
             $this->discussions[$i] = $DB->get_records_sql($sql, null, 0, $this->querylimit);
@@ -207,17 +208,18 @@ class block_unanswered_discussions extends block_base {
         // Do the data retreival. If we don't get anything, show a pretty message instead and return.
         $discussions = $this->get_data($COURSE->id);
         if (empty($discussions)) {
-            $content = get_string('nounanswereddiscussions', 'block_unanswered_discussions');
-            $this->content->text .= $OUTPUT->container($content, 'block_unanswered_discussions_message');
+            $content = get_string('nodiscussions', 'block_all_discussions');
+            $this->content->text .= $OUTPUT->container($content, 'block_all_discussions_message');
             return $this->content;
         }
 
         // Actually create the listing now.
         $strftimedatetime = get_string('strftimedatetime');
         $strtitle = array(
-            get_string('randomposts', 'block_unanswered_discussions'),
-            get_string('oldestposts', 'block_unanswered_discussions'),
-            get_string('yourposts', 'block_unanswered_discussions')
+            get_string('randomposts', 'block_all_discussions'),
+            get_string('timedposts', 'block_all_discussions'),
+            get_string('oldestposts', 'block_all_discussions'),
+            get_string('yourposts', 'block_all_discussions')
         );
 
         // Make sure our sections are in order.
@@ -233,7 +235,7 @@ class block_unanswered_discussions extends block_base {
             }
 
             // Add the title for this section.
-            $this->content->text .= $OUTPUT->container ($strtitle[$key], 'block_unanswered_discussions_heading');
+            $this->content->text .= $OUTPUT->container ($strtitle[$key], 'block_all_discussions_heading');
 
             // Make sure we get them all by resetting the array pointer.
             reset($set);
@@ -247,12 +249,12 @@ class block_unanswered_discussions extends block_base {
                 }
 
                 $this->content->text
-                    .= $OUTPUT->container_start('block_unanswered_discussions_item')
-                    .  $OUTPUT->container_start('block_unanswered_discussions_message')
+                    .= $OUTPUT->container_start('block_all_discussions_item')
+                    .  $OUTPUT->container_start('block_all_discussions_message')
                     .  $OUTPUT->action_link('/mod/forum/discuss.php?d='.$discussion->id, $discussion->subject)
                     .  $OUTPUT->container_end()
                     .  $OUTPUT->container(userdate($discussion->timemodified, $strftimedatetime),
-                          'block_unanswered_discussions_date')
+                          'block_all_discussions_date')
                     .  $OUTPUT->container_end();
             }
 

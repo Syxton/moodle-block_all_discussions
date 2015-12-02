@@ -16,21 +16,21 @@
 
 
 /**
- * Unanswered Discussions block language strings
+ * All Discussions block language strings
  *
  * @package    contrib
- * @subpackage block_unanswered_discussions
- * @copyright  2012 Michael de Raadt
+ * @subpackage block_all_discussions
+ * @copyright  2015 Matthew Davidson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['config_show'] = 'Showing Various Unanswered Discussions';
+$string['config_show'] = 'Showing All Discussions';
 $string['config_show_help'] = '
 <p>With this setting, you can control whether the user will see:</p>
 <ul>
-	<li>unanswered discussions the user has begun themselves,</li>
-	<li>unanswered discussions begun by others, that have been unanswered for the longest time, and/or</li>
-	<li>random unanswered discussions begun by others (and not yet shown in the block)</li>
+	<li>all discussions the user has begun themselves,</li>
+	<li>all discussions begun by others, and/or</li>
+	<li>random discussions begun by others (and not yet shown in the block)</li>
 </ul>
 <p>The quantity of discussions from each type can be specified by number.</p>
 <p>To disable a type of message, set the number of displayed messages to None.</p>
@@ -44,12 +44,13 @@ Among these are News forums, which are initially excluded by default.</p>
 $string['excludefora'] = 'Excluded Forums';
 $string['noforatoexclude'] = 'There are no forums to exclude';
 $string['none'] = 'None';
-$string['nounanswereddiscussions'] = 'No unanswered discussions';
-$string['oldestposts'] = 'Oldest Discussions';
-$string['pluginname'] = 'Unanswered Discussions';
+$string['nodiscussions'] = 'No discussions';
+$string['oldestposts'] = 'Active Discussions';
+$string['pluginname'] = 'All Discussions';
 $string['randomposts'] = 'Random Discussions';
 $string['show'] = 'Show';
-$string['unanswereddiscussions'] = 'Unanswered Discussions';
-$string['unanswered_discussions:addinstance'] = 'Add a new Unanswered Discussions block';
+$string['alldiscussions'] = 'All Discussions';
+$string['all_discussions:addinstance'] = 'Add a new All Discussions block';
 $string['yourposts'] = 'Your Discussions';
+$string['timedposts'] = 'All Discussions';
 $string['yourpostsconfig'] = 'User\'s Discussions';

@@ -16,18 +16,18 @@
 
 
 /**
- * Unanswered Discussions block capabilities definition
+ * All Discussions block capabilities definition
  *
  * @package    contrib
- * @subpackage block_unanswered_discussions
- * @copyright  2012 Michael de Raadt
+ * @subpackage block_all_discussions
+ * @copyright  2015 Matthew Davidson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
 $capabilities = array(
 
-    'block/unanswered_discussions:addinstance' => array(
+    'block/all_discussions:addinstance' => array(
         'riskbitmask' => RISK_SPAM | RISK_XSS,
 
         'captype' => 'write',
