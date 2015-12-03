@@ -24,13 +24,21 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['pluginname'] = 'All Discussions';
+
+$string['alldiscussions'] = 'All Discussions';
+$string['all_discussions:addinstance'] = 'Add a new All Discussions block';
+$string['ascreated'] = 'All Discussions';
+$string['byactivity'] = 'Active Discussions';
+
 $string['config_show'] = 'Showing All Discussions';
 $string['config_show_help'] = '
 <p>With this setting, you can control whether the user will see:</p>
 <ul>
 	<li>all discussions the user has begun themselves,</li>
-	<li>all discussions begun by others, and/or</li>
-	<li>random discussions begun by others (and not yet shown in the block)</li>
+	<li>all discussions ordered by their creation</li>
+    <li>all discussions ordered by activity</li>
+	<li>random discussions begun by anyone (and not yet shown in the block)</li>
 </ul>
 <p>The quantity of discussions from each type can be specified by number.</p>
 <p>To disable a type of message, set the number of displayed messages to None.</p>
@@ -45,12 +53,7 @@ $string['excludefora'] = 'Excluded Forums';
 $string['noforatoexclude'] = 'There are no forums to exclude';
 $string['none'] = 'None';
 $string['nodiscussions'] = 'No discussions';
-$string['oldestposts'] = 'Active Discussions';
-$string['pluginname'] = 'All Discussions';
-$string['randomposts'] = 'Random Discussions';
+$string['random'] = 'Random Discussions';
 $string['show'] = 'Show';
-$string['alldiscussions'] = 'All Discussions';
-$string['all_discussions:addinstance'] = 'Add a new All Discussions block';
-$string['yourposts'] = 'Your Discussions';
-$string['timedposts'] = 'All Discussions';
-$string['yourpostsconfig'] = 'User\'s Discussions';
+$string['youstarted'] = 'Your Discussions';
+$string['youstartedconfig'] = 'User\'s Discussions';

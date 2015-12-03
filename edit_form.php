@@ -39,26 +39,27 @@ class block_all_discussions_edit_form extends block_edit_form {
         }
         $showoptions[0] = get_string('none', 'block_all_discussions');
 
-        // Control visibility of random posts.
-        $mform->addElement('select', 'config_randomposts', get_string('randomposts', 'block_all_discussions'), $showoptions);
-        $mform->setDefault('config_randomposts', $this->block->defaultlimits['randomposts']);
-        $mform->addHelpButton('config_randomposts', 'config_show', 'block_all_discussions');
+        // Control visibility of own posts.
+        $mform->addElement('select', 'config_youstarted', get_string('youstartedconfig', 'block_all_discussions'),
+              $showoptions);
+        $mform->setDefault('config_youstarted', $this->block->defaultlimits['youstarted']);
+        $mform->addHelpButton('config_youstarted', 'config_show', 'block_all_discussions');
 
         // Control visibility of timed posts.
-        $mform->addElement('select', 'config_timedposts', get_string('timedposts', 'block_all_discussions'), $showoptions);
-        $mform->setDefault('config_timedposts', $this->block->defaultlimits['timedposts']);
-        $mform->addHelpButton('config_timedposts', 'config_show', 'block_all_discussions');
+        $mform->addElement('select', 'config_ascreated', get_string('ascreated', 'block_all_discussions'), $showoptions);
+        $mform->setDefault('config_ascreated', $this->block->defaultlimits['ascreated']);
+        $mform->addHelpButton('config_ascreated', 'config_show', 'block_all_discussions');
 
         // Control visibility of active posts.
-        $mform->addElement('select', 'config_oldestposts', get_string('oldestposts', 'block_all_discussions'), $showoptions);
-        $mform->setDefault('config_oldestposts', $this->block->defaultlimits['oldestposts']);
-        $mform->addHelpButton('config_oldestposts', 'config_show', 'block_all_discussions');
+        $mform->addElement('select', 'config_byactivity', get_string('byactivity', 'block_all_discussions'), $showoptions);
+        $mform->setDefault('config_byactivity', $this->block->defaultlimits['byactivity']);
+        $mform->addHelpButton('config_byactivity', 'config_show', 'block_all_discussions');
 
-        // Control visibility of own posts.
-        $mform->addElement('select', 'config_yourposts', get_string('yourpostsconfig', 'block_all_discussions'),
-              $showoptions);
-        $mform->setDefault('config_yourposts', $this->block->defaultlimits['yourposts']);
-        $mform->addHelpButton('config_yourposts', 'config_show', 'block_all_discussions');
+        // Control visibility of random posts.
+        $mform->addElement('select', 'config_random', get_string('random', 'block_all_discussions'), $showoptions);
+        $mform->setDefault('config_random', $this->block->defaultlimits['random']);
+        $mform->addHelpButton('config_random', 'config_show', 'block_all_discussions');
+
 
         $forums = $DB->get_records('forum', array('course' => $COURSE->id), 'name ASC');
         $selectoptions = array();

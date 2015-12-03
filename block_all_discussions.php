@@ -28,14 +28,14 @@ class block_all_discussions extends block_base {
 
     // Default Configuration.
     public $defaultlimits = array(
-        'randomposts' => 5, // Random Posts.
-        'timedposts'  => 5, // Random Posts.
-        'oldestposts' => 5, // Oldest Posts.
-        'yourposts'   => 5  // Your Posts.
+        'youstarted'   => 5,  // Your Discussions.
+        'ascreated'  => 5, // All Discussions.
+        'byactivity' => 5, // All Discussions by activity.
+        'random' => 5, // Random Discussions.
     );
     public $maxsubjectlength = 20; // Characters.
-    public $maxshowoption = 10; // Messages.
-    public $querylimit = 50; // Messages.
+    public $maxshowoption = 100; // Messages.
+    public $querylimit = 100; // Messages.
 
     // ------------------------------------------------------------------------
     public function init() {
@@ -104,16 +104,16 @@ class block_all_discussions extends block_base {
             $whereforaexcludesql = ' AND d.forum NOT IN(' . join($this->config->exclude, ',') . ') ';
         }
         $this->config->limits = array (
-            $this->config->randomposts,
-            $this->config->timedposts,
-            $this->config->oldestposts,
-            $this->config->yourposts
+            $this->config->youstarted,
+            $this->config->ascreated,
+            $this->config->byactivity,
+            $this->config->random
         );
 
         // These are the different bits in the three queries.
         $queries = array(
-            'where'  => array("", "", "", "AND d.userid = {$USER->id}"),
-            'order'  => array("RAND() LIMIT 10000", "d.id ASC,", "d.timemodified ASC,", "d.id ASC,"),
+            'where'  => array("AND d.userid = {$USER->id}", "", "", ""),
+            'order'  => array("d.id ASC", "d.id ASC", "d.timemodified DESC", "d.id ASC"),
         );
 
         // Do it backwards and exclude previous results.
@@ -121,8 +121,9 @@ class block_all_discussions extends block_base {
         // This array holds already presented discussion ids to exclude for the next query (stops duplication).
         $discussionexclude = array();
 
+        $count = count($this->config->limits) - 1;
         // Run the three queries.
-        for ($i = 2; $i >= 0; $i--) {
+        for ($i = $count; $i >= 0; $i--) {
 
             // No point doing the query if it's not enabled.
             if (!$this->config->limits[$i] > 0) {
@@ -169,7 +170,7 @@ class block_all_discussions extends block_base {
             $this->discussions[$i] = array_values($this->discussions[$i]);
 
             // For random posts, shuffle.
-            if ($i == 0) {
+            if ($i == 3) {
                 shuffle($this->discussions[$i]);
             }
 
@@ -177,10 +178,10 @@ class block_all_discussions extends block_base {
             $this->discussions[$i] = array_slice($this->discussions[$i], 0, $this->config->limits[$i], true);
 
             // Add each discussion to the exclusion list.
-            reset($this->discussions[$i]);
-            foreach ($this->discussions[$i] as $discussion) {
-                $discussionexclude[] = $discussion->id;
-            }
+//            reset($this->discussions[$i]);
+//            foreach ($this->discussions[$i] as $discussion) {
+//                $discussionexclude[] = $discussion->id;
+//            }
         }
 
         return $this->discussions;
@@ -216,10 +217,10 @@ class block_all_discussions extends block_base {
         // Actually create the listing now.
         $strftimedatetime = get_string('strftimedatetime');
         $strtitle = array(
-            get_string('randomposts', 'block_all_discussions'),
-            get_string('timedposts', 'block_all_discussions'),
-            get_string('oldestposts', 'block_all_discussions'),
-            get_string('yourposts', 'block_all_discussions')
+            get_string('youstarted', 'block_all_discussions'),
+            get_string('ascreated', 'block_all_discussions'),
+            get_string('byactivity', 'block_all_discussions'),
+            get_string('random', 'block_all_discussions')
         );
 
         // Make sure our sections are in order.
